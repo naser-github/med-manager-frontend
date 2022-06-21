@@ -49,6 +49,6 @@ import TopBar from "~/components/base/nav-bar/TopBar";
 
 export default {
   middleware: 'isAuthorized',
-  components: {TopBar, AccountMenu, Breadcrumb, MobileMenu}
+  components: {TopBar, AccountMenu, Breadcrumb, MobileMenu},
 }
 </script>

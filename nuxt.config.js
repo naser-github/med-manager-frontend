@@ -29,17 +29,33 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/css/main.css', '@/assets/css/app.css'],
 
+  // customize progress bar
+  loading: {
+    color: '#f85604', height: '2px', duration: 5000
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: '~/plugins/persistedState.client.js'},
+
+    // theme
     {src: '~/plugins/theme/app.client.js'},
-    {src: '~/plugins/persistedState.client.js'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxt/postcss8'],
+  buildModules: [
+    '@nuxt/postcss8',
+
+    // fontawesome
+    '@nuxtjs/fontawesome'
+  ],
+
+  fontawesome: {
+    icons: []
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
