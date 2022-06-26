@@ -9,7 +9,7 @@
     <!-- BEGIN: Login Form -->
     <div class="h-screen xl:h-auto flex py-5 xl:py-0 my-10 xl:my-0">
       <div
-        class="my-auto mx-auto xl:ml-20 bg-white dark:bg-darkmode-600 xl:bg-transparent px-5 sm:px-8 py-8 xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto">
+        class="my-auto mx-auto xl:ml-20 bg-white xl:bg-transparent px-5 sm:px-8 py-8 xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto">
         <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
           Sign In
         </h2>
@@ -17,16 +17,16 @@
           <div class="intro-x mt-8">
             <!--email-->
             <input v-model.trim="email" type="email" class="intro-x login__input form-control py-3 px-4 block"
-                   placeholder="Email">
+                   placeholder="Email" required>
 
             <!--password-->
             <input v-model.trim="password" type="password"
                    class="intro-x login__input form-control py-3 px-4 block mt-4"
-                   placeholder="Password">
+                   placeholder="Password" required>
 
           </div>
 
-          <div class="intro-x flex text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
+          <div class="intro-x flex text-slate-600 text-xs sm:text-sm mt-4">
             <div class="flex items-center mr-auto">
               <input v-model.trim="rememberMe" id="remember-me" type="checkbox" class="form-check-input border mr-2">
               <label class="cursor-pointer select-none" for="remember-me">Remember me</label>
@@ -39,11 +39,14 @@
                       class="btn btn-outline-secondary py-3 px-4 w-full xl:w-32 mt-3 xl:mt-0 align-top">Register
             </NuxtLink>
           </div>
-          <div class="intro-x mt-10 xl:mt-24 text-slate-600 dark:text-slate-500 text-center xl:text-left">
+
+          <SocialMedia/>
+
+          <div class="intro-x mt-6 xl:mt-12 text-slate-600 text-center xl:text-left">
             By signing in, you agree to our
-            <a class="text-primary dark:text-slate-200" href="">Terms and Conditions</a>
+            <a class="text-primary" href="">Terms and Conditions</a>
             &
-            <a class="text-primary dark:text-slate-200" href="">Privacy Policy</a>
+            <a class="text-primary" href="">Privacy Policy</a>
           </div>
         </form>
       </div>
@@ -54,9 +57,10 @@
 
 <script>
 import DetailPage from "@/components/auth/DetailPage";
+import SocialMedia from "@/components/auth/SocialMedia";
 
 export default {
-  components: {DetailPage},
+  components: {SocialMedia, DetailPage},
   layout: 'auth',
   middleware: 'isLogged',
   name: 'SignIn',

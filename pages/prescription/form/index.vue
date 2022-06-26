@@ -46,6 +46,8 @@
 
 <script>
 export default {
+  name: 'PrescriptionPage',
+  middleware: 'isAuthorized',
   data() {
     return {
       counter: 1,
@@ -97,7 +99,6 @@ export default {
           time: null
         })
       }
-      // this.$forceUpdate();
     },
 
     onSubmit() {

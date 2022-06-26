@@ -110,28 +110,32 @@ export const actions = {
       })
   },
 
+  // social login
+  socialLogin(vuexContext, payload) {
+    vuexContext.commit('signIn', {
+      authToken: payload.token,
+      userName: payload.name,
+      userEmail: payload.email,
+      expiredAt: payload.expiredAt,
+    })
+  },
+
   // signOut
-  signOut(vuexContext) {
+  async signOut(vuexContext) {
     Cookie.remove('token')
     Cookie.remove('expirationTime')
 
-    vuexContext.commit('signOut')
+    await vuexContext.commit('signOut')
 
-    this.$toast.show({
-      type: 'success',
-      title: 'Success',
-      message: 'logged out successfully',
-    })
-
-    this.$router.replace('/');
+    return 0;
   },
 }
 
 export const mutations = {
+
   // save login data
   signIn(state, payload) {
     state.authToken = payload.authToken
-    state.userId = payload.userId
     state.userName = payload.userName
     state.userEmail = payload.userEmail
     state.expiredAt = payload.expiredAt

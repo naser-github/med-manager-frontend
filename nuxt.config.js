@@ -27,7 +27,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/main.css', '@/assets/css/app.css'],
+  css: [
+    '@/assets/css/main.css'
+    // '@/assets/css/app.css'
+  ],
 
   // customize progress bar
   loading: {
@@ -54,7 +57,11 @@ export default {
   ],
 
   fontawesome: {
-    icons: []
+    component: 'fa',
+    icons: {
+      solid: true,
+      brands: true
+    }
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -63,10 +70,19 @@ export default {
     '@nuxtjs/axios',
 
     // toast
-    ['nuxt-tailvue', {toast: true}]],
+    ['nuxt-tailvue', {
+      all: true,
+      toast:
+        {
+          defaults: {
+            containerClasses: []
+          }
+        }
+    }]
+  ],
 
   axios: {
-    baseURL: 'http://med-man.test/api/' // localhost
+    baseURL: 'http://med-man.dev/api/' // localhost
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -81,9 +97,9 @@ export default {
   // routing config
   router: {
     linkActiveClass: 'active'
-  }
+  },
 
-  // creates public server
+  // // creates public server
   // server: {
   //   host: '0' // default: localhost
   // }

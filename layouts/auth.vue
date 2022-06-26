@@ -1,9 +1,8 @@
 <template>
   <section class="login">
     <div class="container sm:px-10">
-<Nuxt/>
+      <Nuxt/>
     </div>
-
   </section>
 </template>
 

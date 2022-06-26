@@ -46,9 +46,15 @@ import MobileMenu from "~/components/base/nav-bar/MobileMenu";
 import Breadcrumb from "~/components/base/nav-bar/Breadcrumb";
 import AccountMenu from "~/components/base/nav-bar/AccountMenu";
 import TopBar from "~/components/base/nav-bar/TopBar";
-
 export default {
-  middleware: 'isAuthorized',
   components: {TopBar, AccountMenu, Breadcrumb, MobileMenu},
 }
 </script>
+
+
+<style>
+div#toasts {
+  z-index: 150 !important;
+  justify-content: flex-end !important;
+}
+</style>

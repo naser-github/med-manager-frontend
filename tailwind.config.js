@@ -9,6 +9,7 @@ module.exports = {
     // toaster
     'node_modules/tv-*/dist/tv-*.umd.min.js',
   ],
+  important: true,
   theme: {
     extend: {},
   },

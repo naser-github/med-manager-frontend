@@ -45,6 +45,15 @@ export default {
   methods: {
     signOut() {
       this.$store.dispatch('auth/signOut')
+        .then(() => {
+          this.$toast.show({
+            type: 'success',
+            title: 'Success',
+            message: 'logged out successfully',
+          })
+
+          this.$router.replace('/auth/sign-in')
+        })
     }
   }
 }

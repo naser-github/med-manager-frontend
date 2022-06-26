@@ -40,7 +40,10 @@
             </NuxtLink>
           </div>
         </form>
-        <div class="intro-x mt-10 xl:mt-24 text-slate-600 text-center xl:text-left">
+
+        <SocialMedia/>
+
+        <div class="intro-x mt-6 xl:mt-12 text-slate-600 text-center xl:text-left">
           By signing in, you agree to our
           <a class="text-primary" href="">Terms and Conditions</a>
           &
@@ -54,11 +57,12 @@
 
 <script>
 import DetailPage from "@/components/auth/DetailPage";
+import SocialMedia from "@/components/auth/SocialMedia";
 
 export default {
   name: 'SignUp',
   layout: 'auth',
-  components: {DetailPage},
+  components: {SocialMedia, DetailPage},
 
   data() {
     return {
@@ -82,7 +86,6 @@ export default {
     },
 
     onSubmit() {
-
       const passwordExpression = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])";
 
       if (!this.name || !this.email || !this.phone || !this.password || !this.confirmPassword || !this.role) {
