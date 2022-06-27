@@ -1,11 +1,5 @@
 <template>
   <section>
-    <div class="text-right">
-      <NuxtLink to="/prescription/form" class="btn btn-primary w-32 inline-block mr-1 my-2">
-        Add Medicine
-      </NuxtLink>
-    </div>
-
     <div class="col-span-12 mt-8">
       <div class="intro-y flex items-center h-10">
         <h2 class="text-lg font-medium truncate mr-5">General Report</h2>

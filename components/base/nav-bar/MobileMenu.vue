@@ -15,61 +15,44 @@
         </svg>
       </span>
     </div>
+
     <ul :class="(!menu) ? 'hidden': '' " class="border-t border-white/[0.08] py-5">
       <li @click="subMenuFunction('dashboard')">
-        <div class="menu menu--active">
-          <!--<div class="menu__icon"><i data-feather="home"></i></div>-->
+        <NuxtLink to="/dashboard" class="menu menu--active">
+          <div class="menu__icon">
+            <fa :icon="['fas','fa-house']"/>
+          </div>
           <div class="menu__title">
             <span>Dashboard</span>
-            <i data-feather="chevron-down" class="menu__sub-icon transform rotate-180"></i>
           </div>
-        </div>
-        <ul :class="(subMenu.dashboard)?'menu__sub-open': '' ">
-          <li>
-            <NuxtLink to="/" class="menu menu--active">
-              <div class="menu__icon"><i data-feather="activity"></i></div>
-              <div class="menu__title"> Overview 1</div>
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/" class="menu">
-              <div class="menu__icon"><i data-feather="activity"></i></div>
-              <div class="menu__title"> Overview 2</div>
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/" class="menu">
-              <div class="menu__icon"><i data-feather="activity"></i></div>
-              <div class="menu__title"> Overview 3</div>
-            </NuxtLink>
-          </li>
-        </ul>
+        </NuxtLink>
       </li>
       <li @click="subMenuFunction('apps')">
         <div class="menu">
-          <div class="menu__icon"><i data-feather="box"></i></div>
+          <div class="menu__icon">
+            <fa :icon="['fas','fa-book-medical']"/>
+          </div>
           <div class="menu__title">
-            <span>Menu Layout</span>
-            <i data-feather="chevron-down" class="menu__sub-icon "></i>
+            <span>Prescription</span>
+            <fa :icon="['fas','fa-chevron-down']" class="menu__sub-icon "/>
           </div>
         </div>
         <ul :class="(subMenu.apps)?'menu__sub-open': '' ">
           <li>
-            <NuxtLink to="/" class="menu menu--active">
-              <div class="menu__icon"><i data-feather="activity"></i></div>
-              <div class="menu__title"> Side Menu</div>
+            <NuxtLink to="/prescription/form" class="menu menu--active">
+              <div class="menu__icon">
+                <fa :icon="['fas','fa-plus']"/>
+              </div>
+              <div class="menu__title"> Add Prescription</div>
             </NuxtLink>
           </li>
+
           <li>
-            <NuxtLink to="/" class="menu menu--active">
-              <div class="menu__icon"><i data-feather="activity"></i></div>
-              <div class="menu__title"> Simple Menu</div>
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/" class="menu menu--active">
-              <div class="menu__icon"><i data-feather="activity"></i></div>
-              <div class="menu__title"> Top Menu</div>
+            <NuxtLink to="/prescription/list" class="menu menu--active">
+              <div class="menu__icon">
+                <fa :icon="['fas','fa-list']"/>
+              </div>
+              <div class="menu__title"> Prescription List</div>
             </NuxtLink>
           </li>
         </ul>

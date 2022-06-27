@@ -42,7 +42,7 @@ export default {
     {src: '~/plugins/persistedState.client.js'},
 
     // theme
-    {src: '~/plugins/theme/app.client.js'},
+    {src: '~/plugins/theme/app.client.js'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -96,7 +96,7 @@ export default {
 
   // routing config
   router: {
-    linkActiveClass: 'active'
+    linkActiveClass: 'top-menu--active'
   },
 
   // // creates public server
