@@ -4,8 +4,8 @@
       <div class="intro-y box my-5 p-4">
         <div v-for="(row,index) in counter" :key="index">
           <div class="grid grid-cols-12 gap-2 my-3">
-            <div class="col-span-1  mt-3 text-center">
-              <span class="text-xs md:text-md px-1 md:px-5 py-2 bg-primary text-white rounded">{{ index + 1 }}</span>
+            <div class="col-span-1 flex items-stretch">
+              <span class="mx-0 lg:mx-auto px-1 lg:px-4 py-2 self-center btn box border-primary text-xs md:text-md">{{ index + 1 }}</span>
             </div>
             <input type="text" v-model="formData[index].medicineName" class="form-control col-span-4"
                    placeholder="Medicine name" aria-label="default input inline 1" required>
@@ -27,13 +27,20 @@
                      aria-label="default input inline 2" required>
             </div>
           </div>
-
         </div>
 
+
         <div class="intro-x mt-5 xl:mt-8 text-right">
-          <span class="btn btn-outline-primary py-1 px-2 w-12 lg:mr-3 align-top text-2xl" @click="increaseRow">
-            +
-          </span>
+          <div class="btn px-2 box border-primary" @click="increaseRow">
+            <span class="w-5 h-5 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                   stroke="#084f3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                   icon-name="plus" class="lucide lucide-plus w-4 h-4" data-lucide="plus">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+          </div>
         </div>
 
         <div class="intro-x mt-5 xl:mt-8 text-center lg:text-left">
