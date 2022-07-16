@@ -127,7 +127,6 @@ export default {
         .catch(() => {
           this.toast('danger', 'Error', 'something went wrong!!')
         })
-
     }
   }
 }

@@ -1,3 +1,10 @@
+<script>
+export default {
+  name: 'IndexPage',
+  middleware: 'isAuthorized',
+}
+</script>
+
 <template>
   <section>
     <div class="col-span-12 mt-8">
@@ -122,10 +129,3 @@
     </div>
   </section>
 </template>
-
-<script>
-export default {
-  name: 'IndexPage',
-  middleware: 'isAuthorized',
-}
-</script>

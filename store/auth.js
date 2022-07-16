@@ -78,7 +78,7 @@ export const actions = {
         Cookie.set('expirationTime', expirationTime)
       })
       .catch(function (err) {
-        console.log('log error:', err.response.data.message)
+        console.warn('auth/sign-in:', err)
 
         this.$toast.show({
           type: 'danger',
@@ -100,7 +100,7 @@ export const actions = {
         role: payload.role,
       })
       .catch(function (err) {
-        console.log('log error:', err.response.data.message)
+        console.warn('auth/sign-up:', err)
 
         this.$toast.show({
           type: 'danger',

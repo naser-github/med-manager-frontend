@@ -53,7 +53,10 @@ export default {
     '@nuxt/postcss8',
 
     // fontawesome
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
+
+    // vuetify
+    '@nuxtjs/vuetify'
   ],
 
   fontawesome: {
@@ -97,7 +100,7 @@ export default {
   // routing config
   router: {
     linkActiveClass: 'top-menu--active'
-  },
+  }
 
   // // creates public server
   // server: {

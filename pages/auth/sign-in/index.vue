@@ -1,3 +1,46 @@
+<script>
+import DetailPage from "@/components/auth/DetailPage";
+import SocialMedia from "@/components/auth/SocialMedia";
+
+export default {
+  components: {SocialMedia, DetailPage},
+
+  layout: 'auth',
+  middleware: 'isLogged',
+
+  name: 'SignIn',
+
+  data() {
+    return {
+      email: '',
+      password: '',
+      rememberMe: false,
+    }
+  },
+
+  methods: {
+    onSubmit() {
+      this.$store
+        .dispatch('auth/singIn', {
+          email: this.email,
+          password: this.password,
+          rememberMe: this.rememberMe,
+        })
+        .then((response) => {
+          this.$router.replace('/')
+        })
+        .catch(() => {
+          this.$toast.show({
+            type: 'danger',
+            title: 'Error',
+            message: 'wrong username or password !!',
+          })
+        })
+    },
+  },
+}
+</script>
+
 <template>
   <div class="block xl:grid grid-cols-2 gap-4">
     <!-- BEGIN: Login Info -->
@@ -54,44 +97,3 @@
     <!-- END: Login Form -->
   </div>
 </template>
-
-<script>
-import DetailPage from "@/components/auth/DetailPage";
-import SocialMedia from "@/components/auth/SocialMedia";
-
-export default {
-  components: {SocialMedia, DetailPage},
-  layout: 'auth',
-  middleware: 'isLogged',
-  name: 'SignIn',
-
-  data() {
-    return {
-      email: '',
-      password: '',
-      rememberMe: false,
-    }
-  },
-
-  methods: {
-    onSubmit() {
-      this.$store
-        .dispatch('auth/singIn', {
-          email: this.email,
-          password: this.password,
-          rememberMe: this.rememberMe,
-        })
-        .then((response) => {
-          this.$router.replace('/')
-        })
-        .catch(() => {
-          this.$toast.show({
-            type: 'danger',
-            title: 'Error',
-            message: 'wrong username or password !!',
-          })
-        })
-    },
-  },
-}
-</script>

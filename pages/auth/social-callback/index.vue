@@ -1,9 +1,3 @@
-<template>
-  <div class="container">
-    <p>Please wait while we're logging you in...</p>
-  </div>
-</template>
-
 <script>
 export default {
   data() {
@@ -21,9 +15,15 @@ export default {
         name: this.name,
         email: this.email,
         expiredAt: new Date().getTime() + 2 * 3600 * 1000,
-      }).then(()=>{
-        this.$router.replace('/')
+      }).then(() => {
+      this.$router.replace('/')
     })
   }
 }
 </script>
+
+<template>
+  <div class="container">
+    <p>Please wait while we're logging you in...</p>
+  </div>
+</template>
