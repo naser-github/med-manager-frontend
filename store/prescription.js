@@ -4,6 +4,15 @@ export const state = () => ({
 
 export const actions = {
 
+  // common toast body
+  toast(type, title, msg) {
+    this.$toast.show({
+      type: type,
+      title: title,
+      message: msg,
+    })
+  },
+
   // add medicine in their prescription list
   AddPrescription(vuexContext, payload) {
     return this.$axios
@@ -17,13 +26,9 @@ export const actions = {
         },
       })
       .catch(function (err) {
-        console.warn('prescription/AddPrescription:', err)
+        console.error('prescription/AddPrescription:', err)
 
-        this.$toast.show({
-          type: 'danger',
-          title: 'Error',
-          message: 'something went wrong!!',
-        })
+        this.toast('danger', 'Error', 'something went wrong!!')
       })
   },
 
@@ -40,13 +45,28 @@ export const actions = {
         })
       })
       .catch(function (err) {
-        console.warn('prescription/fetchPrescriptionList:', err.response)
+        console.error('prescription/fetchPrescriptionList:', err)
 
-        this.$toast.show({
-          type: 'danger',
-          title: 'Error',
-          message: 'something went wrong!!',
-        })
+        this.toast('danger', 'Error', 'something went wrong!!')
+      })
+  },
+
+  // updateMedicine
+  updatePrescription(vuexContext, payload) {
+    return this.$axios
+      .$put('/update-prescription', {
+        formData: payload.formData
+      }, {
+        headers: {
+          Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`,
+          'Content-Type': 'multipart/form-data',
+          'Content-type': 'application/json',
+        },
+      })
+      .catch(function (err) {
+        console.error('prescription/updatePrescription:', err)
+
+        this.toast('danger', 'Error', 'something went wrong!!')
       })
   }
 
