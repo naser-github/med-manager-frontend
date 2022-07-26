@@ -15,8 +15,9 @@ export const actions = {
 
   // add medicine in their prescription list
   AddPrescription(vuexContext, payload) {
+    console.log(payload.formData)
     return this.$axios
-      .$post('/add-medicine', {
+      .$post('/add-prescription', {
         formData: payload.formData
       }, {
         headers: {

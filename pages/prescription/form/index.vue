@@ -2,10 +2,13 @@
   <section>
     <form @submit.prevent="onSubmit">
       <div class="intro-y box my-5 p-4">
+
         <div v-for="(row,index) in counter" :key="index">
           <div class="grid grid-cols-12 gap-2 my-3">
             <div class="col-span-1 flex items-stretch">
-              <span class="mx-0 lg:mx-auto px-1 lg:px-4 py-2 self-center btn box border-primary text-xs md:text-md">{{ index + 1 }}</span>
+              <span class="mx-0 lg:mx-auto px-1 lg:px-4 py-2 self-center btn box border-primary text-xs md:text-md">{{
+                  index + 1
+                }}</span>
             </div>
             <input type="text" v-model="formData[index].medicineName" class="form-control col-span-4"
                    placeholder="Medicine name" aria-label="default input inline 1" required>
@@ -29,9 +32,9 @@
           </div>
         </div>
 
-
+        <!--increase medicine slot-->
         <div class="intro-x mt-5 xl:mt-8 text-right">
-          <div class="btn px-2 box border-primary" @click="increaseRow">
+          <div class="btn px-2 box border-primary " @click="increaseRow">
             <span class="w-5 h-5 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                    stroke="#084f3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -44,8 +47,9 @@
         </div>
 
         <div class="intro-x mt-5 xl:mt-8 text-center lg:text-left">
-          <button class="btn btn-primary py-3 px-4 w-full lg:w-32 lg:mr-3 align-top">Save</button>
+          <button class="btn btn-primary py-3 px-4 w-11/12 lg:w-32 lg:mr-3 align-top zoom-in">Save</button>
         </div>
+
       </div>
     </form>
   </section>
@@ -91,11 +95,7 @@ export default {
 
     setDose(index) {
       if (this.formData[index].doseFrequency < 1 || this.formData[index].doseFrequency > 24) {
-        this.$toast.show({
-          type: 'danger',
-          title: 'Error',
-          message: 'maximum limit is 24 & minimum 1',
-        })
+        this.toast('danger', 'Error', 'maximum limit is 24 & minimum 1')
         this.formData[index].doseFrequency = null
         return
       }
