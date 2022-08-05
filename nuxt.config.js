@@ -73,15 +73,7 @@ export default {
     '@nuxtjs/axios',
 
     // toast
-    ['nuxt-tailvue', {
-      all: true,
-      toast:
-        {
-          defaults: {
-            containerClasses: []
-          }
-        }
-    }]
+    ['nuxt-tailvue', {toast: true}]
   ],
 
   axios: {

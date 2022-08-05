@@ -28,7 +28,7 @@ export default {
       })
     },
 
-    onSubmit() {
+    async onSubmit() {
       const passwordExpression = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])";
 
       if (!this.name || !this.email || !this.phone || !this.password || !this.confirmPassword || !this.role) {
@@ -51,7 +51,7 @@ export default {
         return;
       }
 
-      this.$store
+      await this.$store
         .dispatch('auth/singUp', {
           name: this.name,
           email: this.email,
@@ -61,16 +61,13 @@ export default {
           role: this.role,
         })
         .then((response) => {
-          if (response.msg === 'User has been created') {
+          console.log('page-l',response)
+          if (response.message === 'Congratulation, you have been registered into the club 😜') {
             this.$router.replace('/auth/sign-in')
           }
         })
-        .catch(() => {
-          this.$toast.show({
-            type: 'danger',
-            title: 'Error',
-            message: 'sign up  unsuccessful!!',
-          })
+        .catch((error) => {
+          this.toast('sign up!!')
         })
     },
   },

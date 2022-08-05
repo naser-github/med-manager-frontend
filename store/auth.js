@@ -80,6 +80,7 @@ export const actions = {
       .catch(function (err) {
         console.error('auth/sign-in:', err)
 
+
         this.$toast.show({
           type: 'danger',
           title: 'Error',
@@ -96,16 +97,17 @@ export const actions = {
         email: payload.email,
         phone: payload.phone,
         password: payload.password,
-        password_confirm: payload.confirmPassword,
+        password_confirmation: payload.confirmPassword,
         role: payload.role,
       })
-      .catch(function (err) {
-        console.error('auth/sign-up:', err)
+      .catch((error) => {
+        console.error('[auth(sign-up)] - ', error.response.data)
 
         this.$toast.show({
           type: 'danger',
           title: 'Error',
-          message: 'wrong email or password !!',
+          timeout: 10000,
+          message: error.response.data.message,
         })
       })
   },
@@ -155,3 +157,4 @@ export const getters = {
     return state.authToken
   },
 }
+

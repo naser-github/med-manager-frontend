@@ -6,4 +6,10 @@
   </section>
 </template>
 
+<style>
+#toast .flex{
+  flex: 0 1 auto !important;
+}
+</style>
+
 
