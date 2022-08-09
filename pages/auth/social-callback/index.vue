@@ -24,6 +24,6 @@ export default {
 
 <template>
   <div class="container">
-    <p>Please wait while we're logging you in...</p>
+    <p>Please wait while your request is being process...</p>
   </div>
 </template>

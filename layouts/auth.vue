@@ -6,9 +6,9 @@
   </section>
 </template>
 
-<style>
-#toast .flex{
-  flex: 0 1 auto !important;
+<style >
+.flex, .child-flex > * {
+  flex: 0;
 }
 </style>
 

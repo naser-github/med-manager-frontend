@@ -29,7 +29,6 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/css/main.css'
-    // '@/assets/css/app.css'
   ],
 
   // customize progress bar
@@ -56,7 +55,7 @@ export default {
     '@nuxtjs/fontawesome',
 
     // vuetify
-    '@nuxtjs/vuetify'
+    // ['@nuxtjs/vuetify']
   ],
 
   fontawesome: {
@@ -73,7 +72,14 @@ export default {
     '@nuxtjs/axios',
 
     // toast
-    ['nuxt-tailvue', {toast: true}]
+    ['nuxt-tailvue', {toast: true}],
+    // ['nuxt-tailvue', {
+    //   all: true, toast: {
+    //     defaults: {
+    //       containerClasses: ['p-8']
+    //     }
+    //   }
+    // }]
   ],
 
   axios: {

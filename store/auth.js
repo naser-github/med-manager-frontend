@@ -54,6 +54,7 @@ export const actions = {
 
   // singIn function
   singIn(vuexContext, payload) {
+
     return this.$axios
       .$post('/sign-in', {
         email: payload.email,
@@ -61,30 +62,39 @@ export const actions = {
       })
       .then((response) => {
         // set for how long user will be logged in
-        let expirationTime = 0
-        if (payload.rememberMe) expirationTime = new Date().getTime() + 24 * 3600 * 1000
-        else expirationTime = new Date().getTime() + 2 * 3600 * 1000
+        let expirationTime = new Date().getTime();
+        if (payload.rememberMe) expirationTime += 24 * 3600 * 1000
+        else expirationTime += 2 * 3600 * 1000
 
         // saving token & token expiration time in local storage
         vuexContext.commit('signIn', {
-          authToken: response.token,
-          userName: response.user.name,
-          userEmail: response.user.email,
+          authToken: response.data.token,
+          userName: response.data.user.name,
+          userEmail: response.data.user.email,
           expiredAt: expirationTime,
         })
 
         // saving token & token expiration time in cookies
         Cookie.set('token', response.token)
         Cookie.set('expirationTime', expirationTime)
-      })
-      .catch(function (err) {
-        console.error('auth/sign-in:', err)
 
+        if (response.success === true) {
+          console.log(response)
+          this.$toast.show({
+            type: 'success',
+            title: 'Success',
+            message: response.data.message[0],
+          })
+          this.$router.push('/')
+        }
+      })
+      .catch((error) => {
+        console.error('auth/sign-in:', error.response.data)
 
         this.$toast.show({
           type: 'danger',
           title: 'Error',
-          message: 'wrong email or password !!',
+          message: error.response.data.message,
         })
       })
   },
@@ -102,11 +112,9 @@ export const actions = {
       })
       .catch((error) => {
         console.error('[auth(sign-up)] - ', error.response.data)
-
         this.$toast.show({
           type: 'danger',
           title: 'Error',
-          timeout: 10000,
           message: error.response.data.message,
         })
       })

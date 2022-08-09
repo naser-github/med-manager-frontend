@@ -19,23 +19,22 @@ export default {
   },
 
   methods: {
-    onSubmit() {
-      this.$store
+    toast(type, title, msg) {
+      this.$toast.show({
+        type: type,
+        title: title,
+        message: msg,
+      })
+    },
+
+    async onSubmit() {
+      await this.$store
         .dispatch('auth/singIn', {
           email: this.email,
           password: this.password,
           rememberMe: this.rememberMe,
         })
-        .then((response) => {
-          this.$router.replace('/')
-        })
-        .catch(() => {
-          this.$toast.show({
-            type: 'danger',
-            title: 'Error',
-            message: 'wrong username or password !!',
-          })
-        })
+        .catch(() => console.log('sign in unsuccessful!!'))
     },
   },
 }
@@ -70,11 +69,11 @@ export default {
           </div>
 
           <div class="intro-x flex text-slate-600 text-xs sm:text-sm mt-4">
-            <div class="flex items-center mr-auto">
-              <input v-model.trim="rememberMe" id="remember-me" type="checkbox" class="form-check-input border mr-2">
-              <label class="cursor-pointer select-none" for="remember-me">Remember me</label>
+            <div class="form-check mr-auto">
+              <input v-model.trim="rememberMe" id="remember-me" class="form-check-input" type="checkbox">
+              <label class="form-check-label cursor-pointer" for="remember-me">Remember me</label>
             </div>
-            <NuxtLink to="auth/sign-in">Forgot Password?</NuxtLink>
+            <NuxtLink to="/auth/sign-in" class="float-right">Forgot Password?</NuxtLink>
           </div>
           <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
             <button class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top">Login</button>

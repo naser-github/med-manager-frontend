@@ -20,10 +20,10 @@ export default {
 
   methods: {
 
-    toast(msg) {
+    toast(type, title, msg) {
       this.$toast.show({
-        type: 'danger',
-        title: 'Error',
+        type: type,
+        title: title,
         message: msg,
       })
     },
@@ -61,14 +61,12 @@ export default {
           role: this.role,
         })
         .then((response) => {
-          console.log('page-l',response)
-          if (response.message === 'Congratulation, you have been registered into the club 😜') {
+          if (response.success === true) {
+            this.toast('success', 'Success', response.message)
             this.$router.replace('/auth/sign-in')
           }
         })
-        .catch((error) => {
-          this.toast('sign up!!')
-        })
+        .catch(() => console.log('sign in unsuccessful!!'))
     },
   },
 
