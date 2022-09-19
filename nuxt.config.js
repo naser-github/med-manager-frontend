@@ -51,11 +51,9 @@ export default {
   buildModules: [
     '@nuxt/postcss8',
 
-    // fontawesome
-    '@nuxtjs/fontawesome',
+    '@nuxtjs/fontawesome', // fontawesome
 
-    // vuetify
-    // ['@nuxtjs/vuetify']
+    ['@nuxtjs/vuetify'] // vuetify
   ],
 
   fontawesome: {
@@ -68,18 +66,9 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // axios
-    '@nuxtjs/axios',
+    '@nuxtjs/axios', // axios
 
-    // toast
-    ['nuxt-tailvue', {toast: true}],
-    // ['nuxt-tailvue', {
-    //   all: true, toast: {
-    //     defaults: {
-    //       containerClasses: ['p-8']
-    //     }
-    //   }
-    // }]
+    ['nuxt-tailvue', {toast: true}] // toaster [ link - https://github.com/acidjazz/nuxt-tailvue ]
   ],
 
   axios: {
@@ -98,9 +87,9 @@ export default {
   // routing config
   router: {
     linkActiveClass: 'top-menu--active'
-  }
+  },
 
-  // // creates public server
+  // creates public server
   // server: {
   //   host: '0' // default: localhost
   // }

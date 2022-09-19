@@ -79,7 +79,7 @@ export const actions = {
         Cookie.set('expirationTime', expirationTime)
 
         if (response.success === true) {
-          console.log(response)
+
           this.$toast.show({
             type: 'success',
             title: 'Success',

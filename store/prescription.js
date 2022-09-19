@@ -15,9 +15,8 @@ export const actions = {
 
   // add medicine in their prescription list
   AddPrescription(vuexContext, payload) {
-    console.log(payload.formData)
     return this.$axios
-      .$post('/add-prescription', {
+      .$post('/prescription/add', {
         formData: payload.formData
       }, {
         headers: {
@@ -36,13 +35,13 @@ export const actions = {
   // fetch prescription list
   fetchPrescriptionList(vuexContext, payload) {
     return this.$axios
-      .$get('/prescription-list', {
+      .$get('/prescription/list', {
         headers: {
           Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`,
         },
       }).then((response) => {
         vuexContext.commit('setPrescriptionList', {
-          prescriptionList: response.list
+          prescriptionList: response.prescriptionList
         })
       })
       .catch(function (err) {
@@ -55,7 +54,7 @@ export const actions = {
   // updateMedicine
   updatePrescription(vuexContext, payload) {
     return this.$axios
-      .$put('/update-prescription', {
+      .$put('/prescription/update', {
         formData: payload.formData
       }, {
         headers: {
