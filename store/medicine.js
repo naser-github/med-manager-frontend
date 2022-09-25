@@ -18,9 +18,7 @@ export const actions = {
     return this.$axios
       .$get('/medicine/search/' + payload.name, {
         headers: {
-          Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`,
-          'Content-Type': 'multipart/form-data',
-          'Content-type': 'application/json',
+          Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`
         },
       })
       .catch(function (err) {

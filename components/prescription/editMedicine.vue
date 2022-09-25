@@ -1,35 +1,21 @@
 <script>
 export default {
   name: "EditMedicineModal",
-  props: ["value", "medicine"],
+  props: ["prescription", "value"],
 
   data() {
     return {
-      formData: {
-        id: null,
-        name: null,
-        timePeriod: null,
-        status: null,
-      },
+      formData: {}
     };
   },
 
   watch: {
-    medicine() {
-      this.formData = this.$props.medicine // assigning props value to formData
-
-      const expiryDate = new Date(this.formData.timePeriod)
-      const currentDate = new Date()
-
-      this.formData.timePeriod = expiryDate > currentDate ? expiryDate.getDate() - currentDate.getDate() : 0
+    prescription() {
+      this.formData = {...this.$props.prescription}
+      console.log(this.formData)
     }
   },
 
-  computed: {
-    // get_url() {
-    //   return this.$store.getters["url/get_urlDetails"];
-    // },
-  },
   methods: {
     // common toast body
     toast(type, title, msg) {
@@ -52,13 +38,10 @@ export default {
     },
 
     onUpdate() {
-      this.$store
-        .dispatch('prescription/updatePrescription', {
-          formData: this.formData
-        })
-        .catch(() => {
-          this.toast('danger', 'Error', 'something went wrong!!')
-        })
+      this.$store.dispatch('prescription/updatePrescriptionData', {
+        formData: this.formData
+      }).then(() => this.closeAfterUpdate())
+        .catch(() => this.toast('danger', 'Error', 'something went wrong!!'))
     },
   },
 };
@@ -66,7 +49,6 @@ export default {
 
 <template>
   <transition name="modal-fade">
-    <!--    <div class="modal-backdrop pt-[40%] lg:pt-[15%] pl-[16%] lg:pl-[35%] " v-show="value">-->
     <div class="modal overflow-y-auto show" v-show="value">
       <div class="modal-dialog">
         <div class="modal-content bg-sky-50 ">
@@ -85,24 +67,52 @@ export default {
             <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
               <slot name="body">
                 <!--medicine name-->
-                <div class="col-span-12">
+                <div class="col-span-12" v-if="formData.medicine">
                   <label for="name" class="form-label">Name</label>
-                  <input v-model="formData.name" id="name" type="text" class="form-control">
+                  <input v-model="formData.medicine.name" id="name" type="text"
+                         class="form-control">
                 </div>
 
                 <!--expiry time-->
                 <div class="col-span-12 sm:col-span-6">
                   <label for="timePeriod" class="form-label">Days To Continue</label>
-                  <input v-model="formData.timePeriod" id="timePeriod" type="text" class="form-control">
+                  <input v-model="formData.time_period" id="timePeriod" type="text" class="form-control border-success">
                 </div>
 
                 <!--status-->
                 <div class="col-span-12 sm:col-span-6">
                   <label for="status" class="form-label">Status</label>
-                  <select v-model="formData.status" id="status" class="form-select">
+                  <select v-model="formData.status" id="status" class="form-select border-success">
                     <option value="active">Active</option>
                     <option value="inactive">inactive</option>
                   </select>
+                </div>
+
+                <div class="col-span-12">
+                  <span class="text-lg">Dosage Time</span>
+                </div>
+
+                <div class="col-span-12">
+                  <table class="table">
+                    <tbody>
+                    <tr v-for="(dose, index) in formData.dose" :key="index">
+                      <td>
+                        <input v-model="formData.dose[index].label" id="timePeriod" type="text"
+                               class="form-control col-span-4">
+                      </td>
+                      <td>
+                        <input v-model="formData.dose[index].time" id="timePeriod" type="time"
+                               class="form-control col-span-4">
+                      </td>
+                      <td>
+                        <select v-model="formData.dose[index].status" id="status" class="form-select col-span-4">
+                          <option value="active">Active</option>
+                          <option value="inactive">inactive</option>
+                        </select>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
                 </div>
               </slot>
             </div>
@@ -110,7 +120,7 @@ export default {
 
             <!-- BEGIN: Modal Footer -->
             <div class="modal-footer ">
-              <button class="btn btn-pending  w-20 mr-1" @click="close">Cancel</button>
+              <button type="button" class="btn btn-pending  w-20 mr-1" @click="close">Cancel</button>
               <button type="submit" class="btn btn-primary w-20 text-white" @click="closeAfterUpdate">Update</button>
             </div>
           </form>

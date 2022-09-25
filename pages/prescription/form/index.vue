@@ -21,7 +21,6 @@
                 <div class="col-span-4">
                   <input type="text" v-model="formData[index].medicineName" @input="suggestMedicine(index)"
                          class="form-control " placeholder="Medicine name" required>
-
                   <div v-if="formData[index].suggestedMedicines.length>0"
                        class=" flex items-center pt-3 mt-3 font-medium">
                     <span v-for="medicine in formData[index].suggestedMedicines" :key="medicine.id">

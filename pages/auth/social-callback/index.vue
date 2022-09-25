@@ -1,5 +1,11 @@
 <script>
+// <--base components
+import LazyLoader from "@/components/base/components/LazyLoader"
+// base component-->
+
 export default {
+  components: {LazyLoader},
+
   data() {
     return {
       token: this.$route.query.token ? this.$route.query.token : null,
@@ -24,6 +30,6 @@ export default {
 
 <template>
   <div class="container">
-    <p>Please wait while your request is being process...</p>
+    <LazyLoader/>
   </div>
 </template>

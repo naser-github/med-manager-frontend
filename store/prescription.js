@@ -1,5 +1,7 @@
 export const state = () => ({
-  presentationList: []
+  dosageDetails: [],
+  prescribedMedicineDetail: [],
+  prescriptionList: [],
 })
 
 export const actions = {
@@ -25,8 +27,37 @@ export const actions = {
           'Content-type': 'application/json',
         },
       })
-      .catch(function (err) {
-        console.error('prescription/AddPrescription:', err)
+      .catch(function (response) {
+        console.error('prescription/AddPrescription:', response)
+
+        this.toast('danger', 'Error', 'something went wrong!!')
+      })
+  },
+
+  //dosage details
+  fetchDosageDetails(vuexContext, payload) {
+    return this.$axios
+      .$get('prescription/' + payload + '/dosage', {
+        headers: {
+          Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`,
+        },
+      }).then((response) => vuexContext.commit('setDosageDetails', {dosageDetails: response.dosageDetails}))
+      .catch(function (response) {
+        console.error('prescription/fetchDosageDetails:', response)
+        this.toast('danger', 'Error', 'something went wrong!!')
+      })
+  },
+
+  fetchPrescribedMedicineDetail(vuexContext, payload) {
+    return this.$axios
+      .$get('/prescription/edit/' + payload.medicineId, {
+        headers: {
+          Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`
+        },
+      }).then((response) => {
+        vuexContext.commit('setPrescribedMedicineDetail', {prescribedMedicineDetail: response.prescribedMedicine})
+      }).catch(function (response) {
+        console.error('prescription/fetchPrescribedMedicineDetail:', response)
 
         this.toast('danger', 'Error', 'something went wrong!!')
       })
@@ -44,36 +75,43 @@ export const actions = {
           prescriptionList: response.prescriptionList
         })
       })
-      .catch(function (err) {
-        console.error('prescription/fetchPrescriptionList:', err)
-
+      .catch(function (response) {
+        console.error('prescription/fetchPrescriptionList:', responseresponse)
         this.toast('danger', 'Error', 'something went wrong!!')
       })
   },
 
   // updateMedicine
-  updatePrescription(vuexContext, payload) {
-    return this.$axios
-      .$put('/prescription/update', {
-        formData: payload.formData
-      }, {
-        headers: {
-          Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`,
-          'Content-Type': 'multipart/form-data',
-          'Content-type': 'application/json',
-        },
-      })
-      .catch(function (err) {
-        console.error('prescription/updatePrescription:', err)
+  updatePrescriptionData(vuexContext, payload) {
+    return this.$axios.$put('/prescription/update', payload, {
+      headers: {
+        Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`,
+      },
+    }).catch(function (response) {
+      console.error('prescription/updatePrescription:', response)
 
-        this.toast('danger', 'Error', 'something went wrong!!')
-      })
-  }
+      this.toast('danger', 'Error', 'something went wrong!!')
+    })
+  },
 
 }
 
 export const mutations = {
   setPrescriptionList(state, payload) {
-    state.presentationList = payload.prescriptionList
-  }
+    state.prescriptionList = payload.prescriptionList
+  },
+
+  setDosageDetails(state, payload) {
+    state.dosageDetails = payload.dosageDetails
+  },
+
+  setPrescribedMedicineDetail(state, payload) {
+    state.prescribedMedicineDetail = payload.prescribedMedicineDetail
+  },
+}
+
+export const getters = {
+  getPrescriptionList(state) {
+    return state.prescriptionList
+  },
 }

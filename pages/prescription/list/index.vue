@@ -1,8 +1,14 @@
 <script>
+// <--base components
+import LazyLoader from "@/components/base/components/LazyLoader"
+// base component-->
+
+import DosageDetail from "@/components/prescription/DosageDetail";
 import EditModal from '@/components/prescription/editMedicine'
+import prescription from "@/pages/prescription";
 
 export default {
-  components: {EditModal},
+  components: {DosageDetail, EditModal, LazyLoader},
   name: 'PrescriptionList',
   middleware: 'isAuthorized',
   data() {
@@ -10,9 +16,7 @@ export default {
 
       // <--datatable
       loading: true,
-
       search: '',
-
       page: 1,
       pageCount: 0,
       itemsPerPage: 10,
@@ -23,31 +27,43 @@ export default {
         {text: 'Status', value: 'status'},
         {text: 'Action', sortable: false}
       ],
+
       items: [],
       // datatable-->
 
-      medicine: null,
-
       // <--modal
+      dosageDetails: [],
+      prescription: {},
+
       editModalVisible: false,
+      showDosageDetailVisible: false,
       // modal-->
     }
   },
 
   created() {
-    this.fetchPrescriptionList()
+    this.fetchPrescriptionList().then(() => this.loading = false)
   },
 
   computed: {
+    // get dosage details of a medicine from vuex
+    getDosageDetails() {
+      return JSON.parse(JSON.stringify(this.$store.state.prescription.dosageDetails))
+    },
+
     // get prescription list from vuex
     getPrescriptionList() {
-      return this.$store.state.prescription.presentationList
-    }
+      return JSON.parse(JSON.stringify(this.$store.state.prescription.prescriptionList))
+    },
+
+    // get prescription medicine detail from vuex
+    getPrescribedMedicineDetail() {
+      return JSON.parse(JSON.stringify(this.$store.state.prescription.prescribedMedicineDetail))
+    },
   },
 
   methods: {
-
-    // common toast body
+    // <--general functions
     toast(type, title, msg) {
       this.$toast.show({
         type: type,
@@ -56,35 +72,62 @@ export default {
       })
     },
 
-    // call fetchPrescriptionList (prescription.js) to get the prescription list from DB
-    fetchPrescriptionList() {
-      this.$store
-        .dispatch('prescription/fetchPrescriptionList')
-        .then(() => {
-          this.items = this.getPrescriptionList
-          this.loading = false;
-        })
-        .catch(() => {
-          this.toast('danger', 'Error', 'something went wrong!!')
-        })
+    // general functions-->
+
+    // fetch dosage details of a medicine
+    async fetchDosageDetail(id) {
+      await this.$store.dispatch('prescription/fetchDosageDetails', id).then(() => {
+        this.dosageDetails.splice(0, this.getDosageDetails.length, ...this.getDosageDetails);
+      }).catch(() => {
+        this.toast('danger', 'Error', 'something went wrong!!')
+      })
     },
 
-    viewDosageDetail(id) {
-      console.log(id)
+    // call fetchPrescriptionList (prescription.js) to get the prescription list from DB
+    async fetchPrescriptionList() {
+      await this.$store.dispatch('prescription/fetchPrescriptionList').then(() => {
+        const prescriptionList = this.getPrescriptionList
+        this.items.splice(0, this.items.length, ...prescriptionList);
+      }).catch(() => {
+        this.toast('danger', 'Error', 'something went wrong!!')
+      })
+    },
+
+    async fetchPrescribedMedicine(payload) {
+      await this.$store.dispatch('prescription/fetchPrescribedMedicineDetail', {
+        medicineId: payload
+      }).then(() => {
+        this.prescription = {...this.getPrescribedMedicineDetail}
+        const expiryDate = new Date(this.prescription.time_period)
+        const currentDate = new Date()
+        this.prescription.time_period = expiryDate > currentDate ? Math.ceil((Math.abs(expiryDate - currentDate)) / (1000 * 3600 * 24)) : 0
+      }).catch(() => {
+        this.toast('danger', 'Error', 'something went wrong!!')
+      })
+    },
+
+    async viewDosageDetail(id) {
+      await this.fetchDosageDetail(id).then(() => {
+        this.showDosageDetailVisible = true;
+      })
     },
 
     // edit medicine details()
-    editMedicine(id) {
-      this.medicine = id;
+    async editMedicine(id) {
+      await this.fetchPrescribedMedicine(id)
       this.editModalVisible = !this.editModalVisible;
+
     },
 
-    closeEditMedicineModal() {
+    closeEditMedicineModal(id) {
       this.editModalVisible = false;
+      this.showDosageDetailVisible = false;
+      this.fetchDosageDetail(id)
     },
 
-    updateList(){
-      console.log('f')
+    updateList() {
+      this.fetchPrescriptionList();
+      this.fetchDosageDetail();
     }
   }
 }
@@ -121,12 +164,7 @@ export default {
       </div>
 
       <!--lazy loader activates while fetching data from backend-->
-      <div v-if="loading" class="box mt-20 p-8">
-        <div class="col-span-6 sm:col-span-3 xl:col-span-2 flex flex-col justify-end items-center">
-          <img class="w-12" src="@/assets/images/svg/ball-triangle.svg"/>
-          <!--<div class="text-center text-xs mt-2">Loading...</div>-->
-        </div>
-      </div>
+      <LazyLoader v-if="loading"/>
 
       <!--datatable-->
       <div v-else class="intro-y overflow-x-auto mx-4">
@@ -141,43 +179,28 @@ export default {
           @page-count="pageCount = $event"
         >
           <template v-slot:item="{ item }">
-            <tr class="intro-x cursor-pointer">
-              <td class="w-2/5" @click="viewDosageDetail(item.id)">
+            <tr class="intro-x zoom-in">
+              <td class="w-2/5">
                 <span class="font-medium whitespace-nowrap">{{ item.name }}</span>
               </td>
 
-              <td class="w-1/5" @click="viewDosageDetail(item.id)">
+              <td class="w-1/5">
                 {{ item.time_period }}
               </td>
 
-              <td class="w-1/5" @click="viewDosageDetail(item.id)">
-                <div class="text-success">
-                  <fa v-if="item.status==='active'" :icon="['fas','fa-circle-check']" class="text-success text-xl"/>
-                  <fa v-else :icon="['fas','fa-circle-xmark']" class="text-danger text-xl"/>
-                </div>
+              <td class="w-1/5">
+                <fa v-if="item.status==='active'" :icon="['fas','fa-circle-check']" class="text-success text-xl"/>
+                <fa v-else :icon="['fas','fa-circle-xmark']" class="text-danger text-xl"/>
               </td>
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center">
-                  <span class="flex items-center mr-3" @click="editMedicine(item)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         icon-name="check-square" data-lucide="check-square"
-                         class="lucide lucide-check-square w-4 h-4 mr-1">
-                      <polyline points="9 11 12 14 22 4"></polyline>
-                      <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-                    </svg>
-                    Edit
-                  </span>
-                  <span class="flex items-center text-danger">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         icon-name="trash-2" data-lucide="trash-2" class="lucide lucide-trash-2 w-4 h-4 mr-1">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
-                      <line x1="10" y1="11" x2="10" y2="17"></line>
-                      <line x1="14" y1="11" x2="14" y2="17"></line>
-                    </svg>
-                    Delete
+                  <span class="flex items-center">
+                    <fa :icon="['fas','fa-eye']" class="text-lg text-primary mx-2" title="view"
+                        @click="viewDosageDetail(item.id)"/>
+                    <fa :icon="['fa','fa-pen-to-square']" class="text-lg text-amber-300 mx-2" title="edit"
+                        @click="editMedicine(item.id)"/>
+                    <fa :icon="['fas','fa-trash-can']" class="text-danger text-lg mx-2" title="delete"
+                        @click="editMedicine(item.id)"/>
                   </span>
                 </div>
               </td>
@@ -210,14 +233,21 @@ export default {
 
     <EditModal
       :value="editModalVisible"
-      :medicine="medicine"
+      :prescription="prescription"
       @close="closeEditMedicineModal"
       @update-list="updateList"
     />
-
     <!--    @update-list="updateList"-->
 
     <!--editMedicine modal-->
+
+    <!-- start view dosage detail modal -->
+    <DosageDetail
+      :value="showDosageDetailVisible"
+      :dosageDetails="dosageDetails"
+      @close="closeEditMedicineModal"
+    />
+    <!-- end view dosage detail modal-->
   </section>
 </template>
 

@@ -1,4 +1,5 @@
 import Cookie from 'js-cookie'
+import {data} from "autoprefixer";
 
 export const state = () => ({
   authToken: null,
@@ -15,37 +16,22 @@ export const actions = {
     let expiredAt = 0
 
     if (req) {
-
-      if (!req.headers.cookie) {
-        return
-      }
+      if (!req.headers.cookie) return
 
       const tokenCookie = req.headers.cookie.split(';').find((c) => c.trim().startsWith('token='))
-      if (!tokenCookie) {
-        return
-      }
+      if (!tokenCookie) return
+
       token = tokenCookie.split('=')[1]
 
-      expiredAt = req.headers.cookie
-        .split(';')
-        .find((c) => c.trim().startsWith('expirationTime='))
-        .split('=')[1]
+      expiredAt = req.headers.cookie.split(';').find((c) => c.trim().startsWith('expirationTime=')).split('=')[1]
+
     } else if (localStorage.key(0)) {
       const auth = JSON.parse(localStorage.getItem('vuex')).auth
       token = auth.authToken
       expiredAt = auth.expiredAt
     }
 
-    if (token && expiredAt > new Date().getTime()) {
-      if (!req) {
-        // this.$toast.show({
-        //   type: 'danger',
-        //   title: 'Error',
-        //   message: 'already logged in!!',
-        // })
-      } else {
-        console.log('already logged in!!!')
-      }
+    if (token && expiredAt - new Date().getTime() > 0) {
       return 1
     } else {
       vuexContext.commit('signOut', expiredAt)
@@ -53,50 +39,43 @@ export const actions = {
   },
 
   // singIn function
-  singIn(vuexContext, payload) {
+  async singIn(vuexContext, payload) {
+    return await this.$axios.$post('/sign-in', {
+      email: payload.email,
+      password: payload.password,
+    }).then((response) => {
+      const expirationTime = setTokenExpirationTime(payload.rememberMe)
 
-    return this.$axios
-      .$post('/sign-in', {
-        email: payload.email,
-        password: payload.password,
+      // saving token & token expiration time in local storage
+      vuexContext.commit('signIn', {
+        authToken: response.data.token,
+        userName: response.data.user.name,
+        userEmail: response.data.user.email,
+        expiredAt: expirationTime,
       })
-      .then((response) => {
-        // set for how long user will be logged in
-        let expirationTime = new Date().getTime();
-        if (payload.rememberMe) expirationTime += 24 * 3600 * 1000
-        else expirationTime += 2 * 3600 * 1000
 
-        // saving token & token expiration time in local storage
-        vuexContext.commit('signIn', {
-          authToken: response.data.token,
-          userName: response.data.user.name,
-          userEmail: response.data.user.email,
-          expiredAt: expirationTime,
-        })
+      // saving token & token expiration time in cookies
+      Cookie.set('token', response.data.token)
+      Cookie.set('expirationTime', expirationTime)
 
-        // saving token & token expiration time in cookies
-        Cookie.set('token', response.token)
-        Cookie.set('expirationTime', expirationTime)
-
-        if (response.success === true) {
-
-          this.$toast.show({
-            type: 'success',
-            title: 'Success',
-            message: response.data.message[0],
-          })
-          this.$router.push('/')
-        }
-      })
-      .catch((error) => {
-        console.error('auth/sign-in:', error.response.data)
-
+      if (response.success === true) {
         this.$toast.show({
-          type: 'danger',
-          title: 'Error',
-          message: error.response.data.message,
+          type: 'success',
+          title: 'Success',
+          message: response.data.message[0],
         })
+
+        this.$router.push('/')
+      }
+    }).catch((error) => {
+      console.error('auth/sign-in:', error.response.data)
+
+      this.$toast.show({
+        type: 'danger',
+        title: 'Error',
+        message: error.response.data.message,
       })
+    })
   },
 
   // singUp function
@@ -128,6 +107,10 @@ export const actions = {
       userEmail: payload.email,
       expiredAt: payload.expiredAt,
     })
+
+    // saving token & token expiration time in cookies
+    Cookie.set('token', payload.token)
+    Cookie.set('expirationTime', payload.expiredAt)
   },
 
   // signOut
@@ -165,4 +148,13 @@ export const getters = {
     return state.authToken
   },
 }
+
+//common functions
+
+// set token expiration time
+const setTokenExpirationTime = (payload) => {
+  if (payload) return new Date().getTime() + (24*3600*1000);
+  else return new Date().getTime() + (2*3600*1000);
+}
+
 
