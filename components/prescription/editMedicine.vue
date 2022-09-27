@@ -12,7 +12,6 @@ export default {
   watch: {
     prescription() {
       this.formData = {...this.$props.prescription}
-      console.log(this.formData)
     }
   },
 
@@ -49,7 +48,8 @@ export default {
 
 <template>
   <transition name="modal-fade">
-    <div class="modal overflow-y-auto show" v-show="value">
+    <div id="static-backdrop-modal-preview" class="modal overflow-y-auto show" data-tw-backdrop="static" tabindex="-1"
+         aria-hidden="true" v-show="value">
       <div class="modal-dialog">
         <div class="modal-content bg-sky-50 ">
 

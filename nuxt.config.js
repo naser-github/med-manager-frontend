@@ -38,11 +38,16 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // importing chart js
+    {src: '~/plugins/chart.js', mode: 'client'},
+
+    // store vuex data in browser local storage
     {src: '~/plugins/persistedState.client.js'},
 
     // theme
     {src: '~/plugins/theme/app.client.js'}
   ],
+
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

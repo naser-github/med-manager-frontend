@@ -26,11 +26,11 @@ export default {
 
 <template>
   <transition name="modal-fade">
-    <div id="superlarge-modal-size-preview" class="modal overflow-y-auto show" tabindex="-1" aria-hidden="true"
-         v-show="value">
+    <div id="static-backdrop-modal-preview" class="modal overflow-y-auto show" data-tw-backdrop="static" tabindex="-1"
+         aria-hidden="true" v-show="value">
       <!--    <div class="modal overflow-y-auto show" v-show="value">-->
-      <div class="modal-dialog modal-md">
-        <div class="modal-content">
+      <div class="modal-dialog">
+        <div class="modal-content bg-sky-50">
 
           <!-- BEGIN: Modal Header -->
           <slot name="header">
@@ -39,7 +39,7 @@ export default {
                 Medicine Name :
                 {{ dosageData ? dosageData[0] ? dosageData[0].name ? dosageData[0].name : 'N/A' : 'N/A' : 'N/A' }}
               </h2>
-              <fa icon="fas fa-circle-xmark" class="w-5 h-5 text-rose-600 cursor-pointer" @click="close"/>
+              <fa icon="fas fa-circle-xmark" class="w-5 h-5 text-primary cursor-pointer" @click="close"/>
             </div>
           </slot>
           <!-- END: Modal Header -->
@@ -98,13 +98,17 @@ export default {
   z-index: 10000;
 }
 
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-  opacity: 0;
-}
+/*.modal-fade-enter-from,*/
+/*.modal-fade-leave-to {*/
+/*  opacity: 0;*/
+/*}*/
 
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 0.5s ease;
-}
+/*.modal-fade-enter-active,*/
+/*.modal-fade-leave-active {*/
+/*  transition: opacity 0.5s ease;*/
+/*}*/
 </style>
+
+
+Modal.vue
+

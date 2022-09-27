@@ -106,28 +106,34 @@ export default {
       })
     },
 
-    async viewDosageDetail(id) {
-      await this.fetchDosageDetail(id).then(() => {
-        this.showDosageDetailVisible = true;
+    // edit medicine details()
+    async editMedicine(id) {
+      await this.fetchPrescribedMedicine(id).then(() => {
+        this.showDosageDetailVisible = false;
+        this.editModalVisible = !this.editModalVisible;
+
+        console.log('editMedicine',this.editModalVisible, this.showDosageDetailVisible)
       })
     },
 
-    // edit medicine details()
-    async editMedicine(id) {
-      await this.fetchPrescribedMedicine(id)
-      this.editModalVisible = !this.editModalVisible;
+    async viewDosageDetail(id) {
+      await this.fetchDosageDetail(id).then(() => {
+        this.editModalVisible = false;
+        this.showDosageDetailVisible = !this.showDosageDetailVisible;
 
+        console.log('viewDosageDetail',this.editModalVisible, this.showDosageDetailVisible)
+      })
     },
 
     closeEditMedicineModal(id) {
       this.editModalVisible = false;
       this.showDosageDetailVisible = false;
-      this.fetchDosageDetail(id)
+
+      console.log(this.editModalVisible, this.showDosageDetailVisible)
     },
 
     updateList() {
       this.fetchPrescriptionList();
-      this.fetchDosageDetail();
     }
   }
 }
@@ -199,8 +205,8 @@ export default {
                         @click="viewDosageDetail(item.id)"/>
                     <fa :icon="['fa','fa-pen-to-square']" class="text-lg text-amber-300 mx-2" title="edit"
                         @click="editMedicine(item.id)"/>
-                    <fa :icon="['fas','fa-trash-can']" class="text-danger text-lg mx-2" title="delete"
-                        @click="editMedicine(item.id)"/>
+                    <!--<fa :icon="['fas','fa-trash-can']" class="text-danger text-lg mx-2" title="delete"-->
+                    <!--@click="editMedicine(item.id)"/>-->
                   </span>
                 </div>
               </td>
@@ -246,6 +252,7 @@ export default {
       :value="showDosageDetailVisible"
       :dosageDetails="dosageDetails"
       @close="closeEditMedicineModal"
+      :close-on-backdrop="false"
     />
     <!-- end view dosage detail modal-->
   </section>
