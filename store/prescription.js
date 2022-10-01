@@ -76,7 +76,7 @@ export const actions = {
         })
       })
       .catch(function (response) {
-        console.error('prescription/fetchPrescriptionList:', responseresponse)
+        console.error('prescription/fetchPrescriptionList:', response)
         this.toast('danger', 'Error', 'something went wrong!!')
       })
   },

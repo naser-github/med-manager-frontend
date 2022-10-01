@@ -1,5 +1,6 @@
 import Vue from "vue";
-import { Line } from "vue-chartjs/legacy";
+import {Bubble, Line} from "vue-chartjs/legacy";
+
 import {
   Chart as ChartJS,
   Title,
@@ -23,6 +24,10 @@ ChartJS.register(
   LineElement,
 );
 
+Vue.component("bubble-chart", {
+  extends: Bubble
+});
+
 Vue.component("line-chart", {
-  extends: Line,
+  extends: Line
 });

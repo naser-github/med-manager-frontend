@@ -111,8 +111,6 @@ export default {
       await this.fetchPrescribedMedicine(id).then(() => {
         this.showDosageDetailVisible = false;
         this.editModalVisible = !this.editModalVisible;
-
-        console.log('editMedicine',this.editModalVisible, this.showDosageDetailVisible)
       })
     },
 
@@ -120,16 +118,12 @@ export default {
       await this.fetchDosageDetail(id).then(() => {
         this.editModalVisible = false;
         this.showDosageDetailVisible = !this.showDosageDetailVisible;
-
-        console.log('viewDosageDetail',this.editModalVisible, this.showDosageDetailVisible)
       })
     },
 
     closeEditMedicineModal(id) {
       this.editModalVisible = false;
       this.showDosageDetailVisible = false;
-
-      console.log(this.editModalVisible, this.showDosageDetailVisible)
     },
 
     updateList() {
