@@ -9,7 +9,7 @@
         <div class="grid grid-cols-12 gap-6 my-12">
 
           <div class="col-span-12 lg:col-span-6">
-            <DailyDoseList :doseList="dailyDoseList"></DailyDoseList>
+            <DailyDoseList :dailyDoseList="dailyDoseList"></DailyDoseList>
           </div>
 
           <!--Begin::chart-->
