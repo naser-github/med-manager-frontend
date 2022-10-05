@@ -5,7 +5,6 @@ import LazyLoader from "@/components/base/components/LazyLoader"
 
 import DosageDetail from "@/components/prescription/DosageDetail";
 import EditModal from '@/components/prescription/editMedicine'
-import prescription from "@/pages/prescription";
 
 export default {
   components: {DosageDetail, EditModal, LazyLoader},

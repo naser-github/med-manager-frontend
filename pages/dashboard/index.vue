@@ -2,7 +2,7 @@
   <section>
     <LazyLoader v-if="lazyLoader"></LazyLoader>
     <div v-else class="grid grid-cols-12 gap-6">
-      <div class="col-span-12 2xl:col-span-9">
+      <div class="col-span-12">
 
         <DashboardCard :runningMedicine="CountRunningMedicines"></DashboardCard>
 

@@ -1,5 +1,4 @@
 import Cookie from 'js-cookie'
-import {data} from "autoprefixer";
 
 export const state = () => ({
   authToken: null,

@@ -109,6 +109,3 @@ export default {
 /*}*/
 </style>
 
-
-Modal.vue
-

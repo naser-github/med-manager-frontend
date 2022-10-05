@@ -2,7 +2,7 @@
   <nav class="top-nav">
     <ul>
 
-      <!--dashboard-->
+      <!--BEGIN::dashboard-->
       <li>
         <NuxtLink to="/dashboard" class="top-menu">
           <div class="top-menu__icon pl-2">
@@ -11,8 +11,9 @@
           <div class="top-menu__title"> Dashboard</div>
         </NuxtLink>
       </li>
+      <!--END::dashboard-->
 
-      <!--prescription menu-->
+      <!--BEGIN::prescription menu-->
       <li>
         <NuxtLink to="/prescription" class="top-menu">
           <div class="top-menu__icon pl-2">
@@ -43,6 +44,32 @@
           </li>
         </ul>
       </li>
+      <!--END::prescription menu-->
+
+      <!--BEGIN::setting-->
+      <li>
+        <NuxtLink to="/setting" class="top-menu">
+          <div class="top-menu__icon pl-2">
+            <fa :icon="['fas','fa-book-medical']"/>
+          </div>
+          <div class="top-menu__title"> Setting
+            <div class="top-menu__sub-icon">
+              <fa :icon="['fas','fa-chevron-down']"/>
+            </div>
+          </div>
+        </NuxtLink>
+        <ul class="">
+          <li>
+            <NuxtLink to="/setting/user-management" class="top-menu">
+              <div class="top-menu__icon pl-2">
+                <fa :icon="['fas','fa-list']"/>
+              </div>
+              <div class="top-menu__title"> User List</div>
+            </NuxtLink>
+          </li>
+        </ul>
+      </li>
+      <!--END::setting-->
     </ul>
   </nav>
 </template>
