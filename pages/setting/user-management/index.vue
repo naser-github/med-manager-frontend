@@ -57,11 +57,12 @@ export default {
     async fetchUserList() {
       await this.$store.dispatch('setting /user/fetchUserList').then(() => {
         this.userList.splice(0, this.userList.length, ...this.getUserList);
-      }).catch((er) => {
-        console.log(er)
-        this.toast('danger', 'Error', 'something went wrong!!')
       })
     },
+
+    redirectToEditPage(payload) {
+      this.$router.push('/setting/user-management/' + payload + '/edit')
+    }
   }
 }
 </script>
@@ -71,7 +72,10 @@ export default {
     <div class="m-5">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center pt-2">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-          <button class="text-lg font-medium truncate">User List</button>
+          <span class="text-lg font-medium truncate">User List</span>
+          <NuxtLink to="/setting/user-management/create" class="btn btn-primary font-medium truncate mx-2">
+            Create User
+          </NuxtLink>
 
           <div class="hidden md:block mx-auto text-slate-500"></div>
           <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
@@ -82,7 +86,8 @@ export default {
                 placeholder="Search..."
                 class="form-control w-56 box pr-10"
               />
-              <fa :icon="['fas', 'fa-magnifying-glass']" class="lucide lucide-search w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0"/>
+              <fa :icon="['fas', 'fa-magnifying-glass']"
+                  class="lucide lucide-search w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0"/>
             </div>
           </div>
         </div>
@@ -123,7 +128,7 @@ export default {
               </td>
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center">
-                  <span class="flex items-center">
+                  <span class="flex items-center" @click="redirectToEditPage(item.id)">
                     <fa :icon="['fa','fa-pen-to-square']" class="text-lg text-amber-300 mx-2" title="edit"/>
                   </span>
                 </div>

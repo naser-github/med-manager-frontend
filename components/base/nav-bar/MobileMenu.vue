@@ -57,6 +57,31 @@
           </li>
         </ul>
       </li>
+
+      <li @click="subMenuFunction('apps')">
+        <div class="menu">
+          <div class="menu__icon">
+            <fa :icon="['fas','fa-book-medical']"/>
+          </div>
+          <div class="menu__title">
+            <span>Setting</span>
+            <fa :icon="['fas','fa-gear']" class="menu__sub-icon "/>
+          </div>
+        </div>
+        <ul :class="(subMenu.apps)?'menu__sub-open': '' ">
+
+
+          <li>
+            <NuxtLink to="/setting/user-management/" class="menu menu--active">
+              <div class="menu__icon">
+                <fa :icon="['fas','fa-list']"/>
+              </div>
+              <div class="menu__title"> User List</div>
+            </NuxtLink>
+          </li>
+        </ul>
+      </li>
+
     </ul>
   </div>
 </template>

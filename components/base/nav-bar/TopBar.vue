@@ -50,7 +50,7 @@
       <li>
         <NuxtLink to="/setting" class="top-menu">
           <div class="top-menu__icon pl-2">
-            <fa :icon="['fas','fa-book-medical']"/>
+            <fa :icon="['fas','fa-gear']"/>
           </div>
           <div class="top-menu__title"> Setting
             <div class="top-menu__sub-icon">

@@ -3,40 +3,25 @@ export const state = () => ({
 })
 
 export const actions = {
-
-  // common toast body
-  toast(type, title, msg) {
-    this.$toast.show({
-      type: type,
-      title: title,
-      message: msg,
-    })
-  },
-
   // shows profile data
   fetchProfileData(vuexContext) {
-    return this.$axios
-      .$get('/profile', {
-        headers: {
-          Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`
-        },
-      }).then((response) => vuexContext.commit('setProfileData', {userDetail: response.userDetail}))
-      .catch(function (err) {
-        console.error('profile/fetchProfileData:', err)
-        this.toast('danger', 'Error', 'something went wrong!!')
-      })
+    return this.$axios.$get('/profile', {
+      headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
+    }).then((response) => {
+      vuexContext.commit('setProfileData', {userDetail: response.userDetail})
+    }).catch(({response}) => {
+      console.error('profile/fetchProfileData:', response.data)
+      this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
+    })
   },
 
   // update profile
   updateProfile(vuexContext, payload) {
     return this.$axios.$put('/profile/update', payload, {
-      headers: {
-        Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`,
-      },
-    }).catch(function (response) {
-      console.error('profile/updateProfile:', response)
-
-      this.toast('danger', 'Error', 'something went wrong!!')
+      headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
+    }).catch(({response}) => {
+      console.error('profile/updateProfile:', response.data)
+      this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
     })
   },
 
@@ -46,10 +31,9 @@ export const actions = {
       headers: {
         Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`,
       },
-    }).catch(function (response) {
-      console.error('profile/updatePassword:', response)
-
-      this.toast('danger', 'Error', 'something went wrong!!')
+    }).catch(({response}) => {
+      console.error('profile/updatePassword:', response.data)
+      this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
     })
   },
 }
