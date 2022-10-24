@@ -2,7 +2,7 @@
   <section>
     <form @submit.prevent="onSubmit">
       <div class="intro-x box rounded-lg my-5 p-2 md:p-5 ">
-        <div class="border border-slate-200/60 rounded-md p-2 md:p-5">
+        <div class="border border-slate-200/60 bg-slate-50 rounded-md p-2 md:p-5">
           <div
             class="font-medium text-base flex items-center pb-5">
             Prescription form
@@ -20,7 +20,7 @@
 
                 <div class="col-span-4">
                   <input type="text" v-model="formData[index].medicineName" @input="suggestMedicine(index)"
-                         class="form-control " placeholder="Medicine name" required>
+                         class="form-control" placeholder="Medicine name" required>
                   <div v-if="formData[index].suggestedMedicines.length>0"
                        class=" flex items-center pt-3 mt-3 font-medium">
                     <span v-for="medicine in formData[index].suggestedMedicines" :key="medicine.id">

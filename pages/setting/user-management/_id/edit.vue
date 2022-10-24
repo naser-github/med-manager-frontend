@@ -7,14 +7,17 @@
           class="font-medium text-base flex items-center pb-5">
           Edit User
         </div>
+
         <div class="my-3">
           <label for="name" class="form-label ">Name</label>
           <input id="name" type="text" v-model="userData.name" class="form-control" placeholder="name" required>
         </div>
+
         <div class="my-3">
           <label for="email" class="form-label">Email</label>
           <input id="email" type="email" v-model="userData.email" class="form-control" placeholder="email" required>
         </div>
+
         <div class="my-3">
           <label for="phone" class="form-label">Phone</label>
           <input id="phone" type="text" v-model="userData.profile.user_phone" class="form-control"

@@ -17,7 +17,7 @@ export const actions = {
 
   // update profile
   updateProfile(vuexContext, payload) {
-    return this.$axios.$put('/profile/update', payload, {
+    return this.$axios.$put('/profile/update', payload.profileData, {
       headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
     }).catch(({response}) => {
       console.error('profile/updateProfile:', response.data)
