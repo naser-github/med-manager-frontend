@@ -9,15 +9,16 @@
 
         <div class="mt-3">
           <label for="current_password" class="form-label">Current Password</label>
-          <input id="current_password" type="password" class="form-control">
+          <input id="current_password" type="password" class="form-control" v-model="formData.currentPassword">
         </div>
-        <div>
+
+        <div class="mt-3">
           <label for="new_password" class="form-label">New Password</label>
-          <input id="new_password" type="password" class="form-control" placeholder="example@gmail.com">
+          <input id="new_password" type="password" class="form-control" v-model="formData.password">
         </div>
         <div class="mt-3">
           <label for="confirm_password" class="form-label">Confirm Password</label>
-          <input id="confirm_password" type="password" class="form-control">
+          <input id="confirm_password" type="password" class="form-control" v-model="formData.password_confirm">
         </div>
 
         <button class="btn btn-primary mt-5">Update</button>
@@ -31,13 +32,12 @@
 export default {
   name: 'ChangePassword',
   middleware: 'isAuthorized',
-
   data() {
     return {
       formData: {
         currentPassword: null,
-        newPassword: null,
-        confirmPassword: null,
+        password: null,
+        password_confirm: null,
       }
     }
   },
@@ -53,12 +53,17 @@ export default {
     },
 
     onUpdate() {
-      if (this.formData.newPassword !== this.formData.currentPassword)
+      if (this.formData.password !== this.formData.password_confirm) {
         this.toast('danger', 'Error', 'password & confirm password mismatch')
+        return
+      }
+
 
       this.$store.dispatch('profile/updatePassword', {
-        formData: this.formData
-      }).then(() => this.closeAfterUpdate())
+        current_password: this.formData.currentPassword,
+        password: this.formData.password,
+        password_confirmation: this.formData.password_confirm,
+      }).then(() => this.closeAfterUpdate)
         .catch((error) => {
           console.log(error)
           this.toast('danger', 'Error', 'something went wrong!!')

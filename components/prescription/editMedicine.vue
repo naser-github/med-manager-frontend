@@ -39,7 +39,7 @@ export default {
     onUpdate() {
       this.$store.dispatch('prescription/updatePrescriptionData', {
         formData: this.formData
-      }).then(() => this.closeAfterUpdate())
+      }).then(() => this.closeAfterUpdate)
         .catch((error) => {
           console.log(error)
           this.toast('danger', 'Error', 'something went wrong!!')

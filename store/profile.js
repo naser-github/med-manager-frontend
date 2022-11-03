@@ -17,20 +17,37 @@ export const actions = {
 
   // update profile
   updateProfile(vuexContext, payload) {
-    return this.$axios.$put('/profile/update', payload.profileData, {
+    return this.$axios.$put('/profile/update-profile', payload.profileData, {
       headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
-    }).catch(({response}) => {
-      console.error('profile/updateProfile:', response.data)
-      this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
+    }).then((response) => {
+      if (response.success) {
+        this.$toast.show({
+          type: 'success',
+          title: 'Success',
+          message: 'profile has been updated',
+        })
+      }
     })
+      .catch(({response}) => {
+        console.error('profile/updateProfile:', response.data)
+        this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
+      })
   },
 
   // update password
   updatePassword(vuexContext, payload) {
-    return this.$axios.$put('/profile/update', payload, {
+    return this.$axios.$put('/profile/update-password', payload, {
       headers: {
         Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`,
       },
+    }).then((response) => {
+      if (response.success) {
+        this.$toast.show({
+          type: 'success',
+          title: 'Success',
+          message: 'password has been updated',
+        })
+      }
     }).catch(({response}) => {
       console.error('profile/updatePassword:', response.data)
       this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})

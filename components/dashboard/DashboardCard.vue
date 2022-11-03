@@ -29,7 +29,7 @@ export default {
             <div class="flex items-center p-3">
               <div class="flex-none">
                 <div class="text-lg font-medium truncate">Message Sent</div>
-                <div class="text-slate-500 mt-1">10</div>
+                <div class="text-slate-500 mt-1">10 [dummy] </div>
               </div>
             </div>
           </div>
