@@ -94,6 +94,7 @@
     text-transform: none
   }
 
+
   [type=button], [type=reset], [type=submit], button {
     -webkit-appearance: button;
     background-color: transparent;
@@ -3020,6 +3021,15 @@
     position: relative
   }
 
+  .required:after {
+    content: "*";
+    position: relative;
+    font-size: inherit;
+    color: #f1416c;
+    padding-left: 0.25rem;
+    font-weight: 700;
+  }
+
   .sticky {
     position: -webkit-sticky;
     position: sticky
@@ -4502,6 +4512,10 @@
   .text-5xl {
     font-size: 3rem;
     line-height: 1
+  }
+
+  .text-wrap {
+    word-wrap: break-word;
   }
 
   .font-medium {

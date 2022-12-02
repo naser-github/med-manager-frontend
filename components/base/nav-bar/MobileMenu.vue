@@ -69,7 +69,14 @@
           </div>
         </div>
         <ul :class="(subMenu.apps)?'menu__sub-open': '' ">
-
+          <li>
+            <NuxtLink to="/setting/import/medicine-data" class="top-menu">
+              <div class="top-menu__icon pl-2">
+                <fa :icon="['fas','fa-upload']"/>
+              </div>
+              <div class="top-menu__title"> Import Medicine</div>
+            </NuxtLink>
+          </li>
 
           <li>
             <NuxtLink to="/setting/user-management/" class="menu menu--active">
