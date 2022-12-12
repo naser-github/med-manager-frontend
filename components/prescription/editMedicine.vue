@@ -32,14 +32,16 @@ export default {
 
     //update & close the modal
     closeAfterUpdate() {
-      this.$emit("update-list");
       this.$emit("close");
+      this.$emit("update_list");
     },
 
-    onUpdate() {
-      this.$store.dispatch('prescription/updatePrescriptionData', {
+    async onUpdate() {
+      await this.$store.dispatch('prescription/updatePrescriptionData', {
         formData: this.formData
-      }).then(() => this.closeAfterUpdate)
+      }).then(() => {
+        setTimeout((this.closeAfterUpdate), 1000)
+      })
         .catch((error) => {
           console.log(error)
           this.toast('danger', 'Error', 'something went wrong!!')

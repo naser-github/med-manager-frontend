@@ -21,7 +21,7 @@ export default {
       itemsPerPage: 10,
 
       headers: [
-        {text: 'Name', value: 'name'},
+        {text: 'Name', value: 'medicine_name'},
         {text: 'Expired At', value: 'time_period'},
         {text: 'Status', value: 'status'},
         {text: 'Action', sortable: false}
@@ -85,8 +85,7 @@ export default {
     // call fetchPrescriptionList (prescription.js) to get the prescription list from DB
     async fetchPrescriptionList() {
       await this.$store.dispatch('prescription/fetchPrescriptionList').then(() => {
-        const prescriptionList = this.getPrescriptionList
-        this.items.splice(0, this.items.length, ...prescriptionList);
+        this.items.splice(0, this.items.length, ...this.getPrescriptionList);
       }).catch(() => {
         this.toast('danger', 'Error', 'something went wrong!!')
       })
@@ -106,17 +105,17 @@ export default {
     },
 
     // edit medicine details()
-    async editMedicine(id) {
-      await this.fetchPrescribedMedicine(id).then(() => {
+    async editMedicine(medicine_id) {
+      await this.fetchPrescribedMedicine(medicine_id).then(() => {
         this.showDosageDetailVisible = false;
-        this.editModalVisible = !this.editModalVisible;
+        this.editModalVisible = true;
       })
     },
 
     async viewDosageDetail(id) {
       await this.fetchDosageDetail(id).then(() => {
         this.editModalVisible = false;
-        this.showDosageDetailVisible = !this.showDosageDetailVisible;
+        this.showDosageDetailVisible = true;
       })
     },
 
@@ -125,8 +124,8 @@ export default {
       this.showDosageDetailVisible = false;
     },
 
-    updateList() {
-      this.fetchPrescriptionList();
+    async updateList() {
+      await this.fetchPrescriptionList();
     }
   }
 }
@@ -180,7 +179,7 @@ export default {
           <template v-slot:item="{ item }">
             <tr class="intro-x zoom-in">
               <td class="w-2/5">
-                <span class="font-medium whitespace-nowrap">{{ item.name }}</span>
+                <span class="font-medium whitespace-nowrap">{{ item.medicine_name }}</span>
               </td>
 
               <td class="w-1/5">
@@ -191,13 +190,14 @@ export default {
                 <fa v-if="item.status==='active'" :icon="['fas','fa-circle-check']" class="text-success text-xl"/>
                 <fa v-else :icon="['fas','fa-circle-xmark']" class="text-danger text-xl"/>
               </td>
+
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center">
                   <span class="flex items-center">
                     <fa :icon="['fas','fa-eye']" class="text-lg text-primary mx-2" title="view"
-                        @click="viewDosageDetail(item.id)"/>
+                        @click="viewDosageDetail(item.medicine_id)"/>
                     <fa :icon="['fa','fa-pen-to-square']" class="text-lg text-amber-300 mx-2" title="edit"
-                        @click="editMedicine(item.id)"/>
+                        @click="editMedicine(item.medicine_id)"/>
                     <!--<fa :icon="['fas','fa-trash-can']" class="text-danger text-lg mx-2" title="delete"-->
                     <!--@click="editMedicine(item.id)"/>-->
                   </span>
@@ -234,7 +234,7 @@ export default {
       :value="editModalVisible"
       :prescription="prescription"
       @close="closeEditMedicineModal"
-      @update-list="updateList"
+      @update_list="updateList"
     />
     <!--    @update-list="updateList"-->
 

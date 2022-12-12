@@ -42,7 +42,7 @@ import LazyLoader from "@/components/base/components/LazyLoader"
 // END::base-component
 
 export default {
-  name: 'EditUser',
+  name: 'CreateUser',
   middleware: 'isAuthorized',
   components: {LazyLoader},
 

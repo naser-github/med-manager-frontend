@@ -38,13 +38,12 @@ export const actions = {
         this.toast('success', 'Success', 'user has been created')
       )
     }).catch(({response}) => {
-      console.error('user/storeUser:', response.data)
+      console.error('user/store:', response.data)
       this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
     })
   },
 
   update(vuexContext, payload) {
-    console.log(payload.formData)
     return this.$axios.$put('/user/' + payload.userId + '/update', payload.formData, {
       headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
     }).then(() => {
@@ -52,7 +51,7 @@ export const actions = {
         this.toast('success', 'Success', 'user has been updated')
       })
     }).catch(({response}) => {
-      console.error('user/storeUser:', response)
+      console.error('user/update:', response)
     })
   },
 }

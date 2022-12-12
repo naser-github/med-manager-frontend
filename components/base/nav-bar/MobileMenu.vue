@@ -69,6 +69,8 @@
           </div>
         </div>
         <ul :class="(subMenu.apps)?'menu__sub-open': '' ">
+
+          <!--BEGIN::Import Medicine-->
           <li>
             <NuxtLink to="/setting/import/medicine-data" class="top-menu">
               <div class="top-menu__icon pl-2">
@@ -77,15 +79,29 @@
               <div class="top-menu__title"> Import Medicine</div>
             </NuxtLink>
           </li>
+          <!--END::Import Medicine-->
 
+          <!--BEGIN::User Management-->
+          <li>
+            <NuxtLink to="/setting/role-management/" class="menu menu--active">
+              <div class="menu__icon">
+                <fa :icon="['fas','fa-list']"/>
+              </div>
+              <div class="menu__title"> Role Management</div>
+            </NuxtLink>
+          </li>
+          <!--END::User Management-->
+
+          <!--BEGIN::User Management-->
           <li>
             <NuxtLink to="/setting/user-management/" class="menu menu--active">
               <div class="menu__icon">
                 <fa :icon="['fas','fa-list']"/>
               </div>
-              <div class="menu__title"> User List</div>
+              <div class="menu__title"> User Management</div>
             </NuxtLink>
           </li>
+          <!--END::User Management-->
         </ul>
       </li>
 

@@ -58,23 +58,40 @@
             </div>
           </div>
         </NuxtLink>
-        <ul class="">
+        <ul>
+          <!--BEGIN::Import Medicine-->
           <li>
             <NuxtLink to="/setting/import/medicine-data" class="top-menu">
               <div class="top-menu__icon pl-2">
                 <fa :icon="['fas','fa-upload']"/>
               </div>
-              <div class="top-menu__title"> Import Medicine</div>
+              <div class="top-menu__title">Import Medicine</div>
             </NuxtLink>
           </li>
+          <!--END::Import Medicine-->
+
+          <!--BEGIN::Role Management-->
+          <li>
+            <NuxtLink to="/setting/role-management" class="top-menu">
+              <div class="top-menu__icon pl-2">
+                <fa :icon="['fas','fa-list']"/>
+              </div>
+              <div class="top-menu__title"> Role Management</div>
+            </NuxtLink>
+          </li>
+          <!--END::Role Management-->
+
+          <!--BEGIN::User Management-->
           <li>
             <NuxtLink to="/setting/user-management" class="top-menu">
               <div class="top-menu__icon pl-2">
                 <fa :icon="['fas','fa-list']"/>
               </div>
-              <div class="top-menu__title"> User List</div>
+              <div class="top-menu__title"> User Management</div>
             </NuxtLink>
           </li>
+          <!--END::Role Management-->
+
         </ul>
       </li>
       <!--END::setting-->

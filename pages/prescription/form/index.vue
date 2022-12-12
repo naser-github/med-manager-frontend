@@ -169,7 +169,6 @@ export default {
           formData: this.formData
         })
         .then((response) => {
-          console.log(response);
           if (response.prescriptionNotSaved.length > 0) {
             const message = response.prescriptionNotSaved + ` already exist in your running prescription but rest are added`;
             this.toast('danger', 'Error', message)

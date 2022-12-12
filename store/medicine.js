@@ -20,13 +20,10 @@ export const actions = {
         'Content-Type': 'multipart/form-data',
         'Content-type': 'application/json',
       },
-    }).then(() => {
-      console.log('file uploaded')
+    }).catch(({response}) => {
+      console.error('medicine/importMedicine:', response.data)
+      this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
     })
-      .catch(({response}) => {
-        console.error('medicine/importMedicine:', response.data)
-        this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
-      })
   }
 }
 

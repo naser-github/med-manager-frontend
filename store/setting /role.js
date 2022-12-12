@@ -1,5 +1,6 @@
 export const state = () => ({
-  roleList: []
+  roleList: [],
+  roleToEdit: {},
 })
 
 export const actions = {
@@ -15,16 +16,63 @@ export const actions = {
       this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
     })
   },
+
+  // store new role
+  store(vuexContext, payload) {
+    return this.$axios.$post('/role/store', payload, {
+      headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
+    }).then(() => {
+      this.$router.replace('/setting/role-management').then(() =>
+        this.toast('success', 'Success', 'role has been created')
+      )
+    }).catch(({response}) => {
+      console.error('role/storeRole:', response.data)
+      this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
+    })
+  },
+
+  // edit role
+  edit(vuexContext, payload) {
+    return this.$axios.$get('/role/' + payload.id + '/edit', {
+      headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
+    }).then(response => {
+      vuexContext.commit('setRoleData', response.role)
+
+    }).catch(({response}) => {
+      console.error('user/editUser:', response.data)
+      this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
+    })
+  },
+  // update role
+  update(vuexContext, payload) {
+    return this.$axios.$put('/role/' + payload.id + '/update', payload, {
+      headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
+    }).then(() => {
+      this.$router.replace('/setting/role-management').then(() => {
+        this.toast('success', 'Success', 'role has been updated')
+      })
+    }).catch(({response}) => {
+      console.error('role/update:', response)
+    })
+  },
 }
 
 export const mutations = {
   setRoleList(state, payload) {
     state.roleList = payload.roleList
   },
+
+  setRoleData(state, payload){
+    state.roleToEdit = payload
+  }
 }
 
 export const getters = {
   getRoleList(state) {
     return state.roleList
+  },
+
+  getRoleToEdit(state) {
+    return state.roleToEdit
   },
 }

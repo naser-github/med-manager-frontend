@@ -57,8 +57,8 @@ export const actions = {
   },
 
   // updateMedicine
-  updatePrescriptionData(vuexContext, payload) {
-    return this.$axios.$put('/prescription/update', payload, {
+  async updatePrescriptionData(vuexContext, payload) {
+    return await this.$axios.$put('/prescription/update', payload, {
       headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
     }).catch(({response}) => {
       console.error('prescription/updatePrescription:', response.data)
