@@ -5,7 +5,7 @@ export const state = () => ({
 
 export const actions = {
 
-  // fetch user list
+  // fetch role list
   fetchRoleList(vuexContext) {
     return this.$axios.$get('/role/index', {
       headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
@@ -26,7 +26,7 @@ export const actions = {
         this.toast('success', 'Success', 'role has been created')
       )
     }).catch(({response}) => {
-      console.error('role/storeRole:', response.data)
+      console.error('role/store:', response.data)
       this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
     })
   },
@@ -37,9 +37,9 @@ export const actions = {
       headers: {Authorization: `Bearer ${vuexContext.rootState.auth.authToken}`},
     }).then(response => {
       vuexContext.commit('setRoleData', response.role)
-
+      vuexContext.commit('setting /permission/setPermissionList', {permissionList: response.permissions}, {root: true})
     }).catch(({response}) => {
-      console.error('user/editUser:', response.data)
+      console.error('role/edit:', response.data)
       this.$toast.show({type: 'danger', title: 'Error', message: response.data.message})
     })
   },
@@ -62,7 +62,7 @@ export const mutations = {
     state.roleList = payload.roleList
   },
 
-  setRoleData(state, payload){
+  setRoleData(state, payload) {
     state.roleToEdit = payload
   }
 }

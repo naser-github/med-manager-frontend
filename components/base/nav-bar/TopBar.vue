@@ -70,11 +70,22 @@
           </li>
           <!--END::Import Medicine-->
 
+          <!--BEGIN::Permission Management-->
+          <li>
+            <NuxtLink to="/setting/permission-management" class="top-menu">
+              <div class="top-menu__icon pl-2">
+                <fa :icon="['fas','fa-ellipsis-h']"/>
+              </div>
+              <div class="top-menu__title"> Permission Management</div>
+            </NuxtLink>
+          </li>
+          <!--END::Permission Management-->
+
           <!--BEGIN::Role Management-->
           <li>
             <NuxtLink to="/setting/role-management" class="top-menu">
               <div class="top-menu__icon pl-2">
-                <fa :icon="['fas','fa-list']"/>
+                <fa :icon="['fas','fa-user-tag']"/>
               </div>
               <div class="top-menu__title"> Role Management</div>
             </NuxtLink>

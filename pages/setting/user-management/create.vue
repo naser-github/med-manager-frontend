@@ -10,15 +10,15 @@
 
         <div class="my-3">
           <label for="name" class="form-label ">Name</label>
-          <input id="name" type="text" v-model="formData.name" class="form-control" placeholder="name" required>
+          <input id="name" type="text" v-model="formData.name" class="form-control shadow shadow-gray-400" placeholder="name" required>
         </div>
         <div class="my-3">
           <label for="email" class="form-label">Email</label>
-          <input id="email" type="email" v-model="formData.email" class="form-control" placeholder="email" required>
+          <input id="email" type="email" v-model="formData.email" class="form-control shadow shadow-gray-400" placeholder="email" required>
         </div>
         <div class="my-3">
           <label for="phone" class="form-label">Phone</label>
-          <input id="phone" type="text" v-model="formData.phone" class="form-control" placeholder="phone number">
+          <input id="phone" type="text" v-model="formData.phone" class="form-control shadow shadow-gray-400" placeholder="phone number">
         </div>
 
         <div class="my-3">

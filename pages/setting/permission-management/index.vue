@@ -1,11 +1,77 @@
+<script>
+// BEGIN::base components
+import LazyLoader from "@/components/base/components/LazyLoader"
+// END::base-component
+
+
+export default {
+  components: {LazyLoader},
+  name: 'PermissionList',
+  middleware: 'isAuthorized',
+
+  data() {
+    return {
+      loading: true,
+      permissionList: [], // variable that holds permission list data
+
+      // BEGIN::datatable
+      search: '',
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 10,
+
+      headers: [
+        {text: 'Name', value: 'name'},
+        {text: 'Action', sortable: false}
+      ],
+      // END::datatable
+    }
+  },
+
+  created() {
+    this.fetchPermissionList().then(() => this.loading = false)
+  },
+
+  computed: {
+    // get user list
+    getPermissionList() {
+      return JSON.parse(JSON.stringify(this.$store.getters["setting /permission/getPermissionList"]))
+    },
+  },
+
+  methods: {
+    // Begin::general functions
+    toast(type, title, msg) {
+      this.$toast.show({
+        type: type,
+        title: title,
+        message: msg,
+      })
+    },
+    // END::general functions
+
+    // call fetchPermissionList (user.js) to get the user list from DB
+    async fetchPermissionList() {
+      await this.$store.dispatch('setting /permission/fetchPermissionList').then(() => {
+        this.permissionList.splice(0, this.permissionList.length, ...this.getPermissionList);
+      })
+    },
+
+    redirectToEditPage(payload) {
+      this.$router.push('/setting/permission-management/' + payload + '/edit')
+    }
+  }
+}
+</script>
+
 <template>
   <section>
     <div class="m-5">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center pt-2">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-          <span class="text-lg font-medium truncate">Role List</span>
-          <NuxtLink to="/setting/role-management/create" class="btn btn-primary font-medium truncate mx-2">
-            Create Role
+          <span class="text-lg font-medium truncate">Permission List</span>
+          <NuxtLink to="/setting/permission-management/create" class="btn btn-primary font-medium truncate mx-2">
+            Create Permission
           </NuxtLink>
 
           <div class="hidden md:block mx-auto text-slate-500"></div>
@@ -32,7 +98,7 @@
         <v-data-table
           :headers="headers"
           hide-default-footer
-          :items="roleList"
+          :items="permissionList"
           :items-per-page="itemsPerPage"
           :page.sync="page"
           :search="search"
@@ -44,10 +110,6 @@
               <td class="w-2/6">
                 <span class="font-medium whitespace-nowrap">{{ item.name }}</span>
               </td>
-              <td class="w-2/6">
-                <fa :icon="['fa','fa-eye']" class="mx-2 text-lg text-emerald-900" title="showPermissions"
-                    @click="showPermissions(item.permissions)"/>
-              </td>
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center">
                   <span class="flex items-center" @click="redirectToEditPage(item.id)">
@@ -58,6 +120,8 @@
             </tr>
           </template>
         </v-data-table>
+
+
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center pt-2">
           <select
             v-model="itemsPerPage"
@@ -77,98 +141,8 @@
         </div>
       </div>
     </div>
-
-    <view-permissions
-      :value="isViewPermissionModalVisible"
-      :permissions="permissions"
-      @close="closeModal"
-    ></view-permissions>
   </section>
 </template>
-
-<script>
-// BEGIN::base components
-import LazyLoader from "@/components/base/components/LazyLoader";
-// END::base-component
-
-// BEGIN::components
-import ViewPermissions from "@/components/setting/role-management/ShowPermissions";
-// END::base-component
-
-export default {
-  name: 'RoleList',
-  middleware: 'isAuthorized',
-  components: {LazyLoader, ViewPermissions},
-
-  data() {
-    return {
-      loading: true,
-      isViewPermissionModalVisible: false, // opens viewPermission modal
-
-      roleList: [], // variable that holds role list data
-      permissions: [], // permission which will pass to show permission modal
-
-      // BEGIN::datatable
-      search: '',
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-
-      headers: [
-        {text: 'Name', value: 'name'},
-        {text: 'Permission', value: 'permission'},
-        {text: 'Action', sortable: false}
-      ],
-      // END::datatable
-    }
-  },
-
-  created() {
-    this.fetchRoleList().then(() => this.loading = false)
-  },
-
-  computed: {
-    // get user list
-    getRoleList() {
-      return JSON.parse(JSON.stringify(this.$store.getters["setting /role/getRoleList"]))
-    },
-  },
-
-  methods: {
-    // Begin::general functions
-    toast(type, title, msg) {
-      this.$toast.show({
-        type: type,
-        title: title,
-        message: msg,
-      })
-    },
-    // END::general functions
-
-    // call fetchRoleList (user.js) to get the user list from DB
-    async fetchRoleList() {
-      await this.$store.dispatch('setting /role/fetchRoleList').then(() => {
-        this.roleList.splice(0, this.roleList.length, ...this.getRoleList);
-      })
-    },
-
-    redirectToEditPage(payload) {
-      this.$router.push('/setting/role-management/' + payload + '/edit')
-    },
-
-    // open modal to show assign permissions of a role
-    showPermissions(permissions) {
-      this.permissions = permissions
-      this.isViewPermissionModalVisible = true;
-    },
-
-    closeModal() {
-      this.isViewPermissionModalVisible = false;
-    }
-  }
-}
-</script>
-
 
 <style scoped>
 .v-data-table {

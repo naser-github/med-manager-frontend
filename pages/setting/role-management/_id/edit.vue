@@ -10,7 +10,21 @@
 
         <div class="my-3">
           <label for="name" class="form-label ">Name</label>
-          <input id="name" type="text" v-model="roleData.name" class="form-control" placeholder="name" required>
+          <input id="name" type="text" v-model="roleData.name" class="form-control shadow shadow-gray-400"
+                 placeholder="name" required>
+        </div>
+
+        <div class="mt-5">
+          <label>Assign Permissions</label>
+          <div class="intro-x grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-2">
+            <div v-for="(permission,index) in permissions" :key="permission.id" class="form-check my-2 mr-2">
+              <input :id="`permission_${index}`" class="form-check-input shadow shadow-gray-400" type="checkbox"
+                     :value=permission.id v-model="roleData.permissions">
+              <label class="form-check-label" :for="`permission_${index}`">
+                <span class="break-all">{{ permission.name }}</span>
+              </label>
+            </div>
+          </div>
         </div>
 
         <button type="submit" class="btn btn-primary mt-5 text-white">Update</button>
@@ -34,6 +48,7 @@ export default {
       lazyLoader: true,
       roleData: {},
       roleId: this.$route.params,
+      permissions: [],
     }
   },
 
@@ -45,6 +60,11 @@ export default {
     // get role list
     getRoleData() {
       return JSON.parse(JSON.stringify(this.$store.getters["setting /role/getRoleToEdit"]))
+    },
+
+    // get permission list
+    getPermissionList() {
+      return JSON.parse(JSON.stringify(this.$store.getters["setting /permission/getPermissionList"]))
     },
   },
 
@@ -61,7 +81,14 @@ export default {
 
     async fetchRoleData() {
       await this.$store.dispatch('setting /role/edit', this.roleId).then(() => {
+        const permissions = []
         this.roleData = {...this.getRoleData}
+
+        this.roleData.permissions.map((ele)=>permissions.push(ele.id))
+
+        this.roleData.permissions = permissions
+
+        this.permissions.splice(0, this.permissions.length, ...this.getPermissionList);
       })
     },
 
