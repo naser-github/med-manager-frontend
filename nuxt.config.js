@@ -77,7 +77,8 @@ export default {
   ],
 
   axios: {
-    baseURL: 'http://med-man.dev/api' // localhost
+    // baseURL: 'http://med-man.dev/api' // localhost
+    baseURL: 'http://localhost:9000/api' // localhost
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
